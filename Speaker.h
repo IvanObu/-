@@ -1,31 +1,32 @@
-#pragma once
 #ifndef SPEAKER_H
 #define SPEAKER_H
 
 #include "Person.h"
 
-using namespace std;
-
 class Speaker : public Person {
 private:
-    string report;      
-    string annotation;  
-public:
-    // Конструкторы и деструктор
-    Speaker();
-    Speaker(const string& name, const string& organization, const string& report, const string& annotation);
-    Speaker(const Speaker& other);
-    ~Speaker();
+    string report;
+    string annotation;
 
-    // Методы доступа
+public:
+    Speaker();
+    Speaker(string name, string organization, string report, string annotation);
+    virtual ~Speaker();
+
+    // Setters и Getters
     string getReport() const;
     void setReport(const string& report);
 
     string getAnnotation() const;
     void setAnnotation(const string& annotation);
 
-    // Переопределение виртуальной функции
+    // Реализация чисто виртуального метода
     void displayInfo() const override;
+
+    // Операции: добавление, удаление, отображение
+    static void addSpeaker(Speaker*& speakers, int& count);
+    static void deleteSpeaker(Speaker*& speakers, int& count);
+    static void listSpeakers(const Speaker* speakers, int count);
 };
 
-#endif // SPEAKER_H
+#endif
