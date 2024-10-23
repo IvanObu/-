@@ -1,37 +1,22 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
 
-#include <string>
-using namespace std;
+#include "Conf.h"
 
-class Program {
+class Program : public Conf {
 private:
     string day;
     string time;
     string title;
-
 public:
-    Program();
-    Program(string day, string time, string title);
-    ~Program();
+    Program() : day(""), time(""), title("") {}
+    Program(const string& d, const string& t, const string& ttl)
+        : Conf(""), day(d), time(t), title(ttl) {}
 
-    // Setters и Getters
-    string getDay() const;
-    void setDay(const string& day);
-
-    string getTime() const;
-    void setTime(const string& time);
-
-    string getTitle() const;
-    void setTitle(const string& title);
-
-    // Вывод информации
-    void displayInfo() const;
-
-    // Операции: добавление, удаление, отображение
-    static void addProgram(Program*& programs, int& count);
-    static void deleteProgram(Program*& programs, int& count);
-    static void listPrograms(const Program* programs, int count);
+    void saveToFile(ofstream& file) override;
+    void loadFromFile(ifstream& file) override;
+    void menu() override;
+    void show() const override;
 };
 
-#endif
+#endif // PROGRAM_H

@@ -1,108 +1,57 @@
 #include "Program.h"
-#include <iostream>
 
-Program::Program() : day(""), time(""), title("") {
-    cout << "Вызван конструктор Program по умолчанию." << endl;
+void Program::saveToFile(ofstream& file) {
+    file << day << "\n";
+    file << time << "\n";
+    file << title << "\n";
 }
 
-Program::Program(string day, string time, string title) : day(day), time(time), title(title) {
-    cout << "Вызван конструктор Program с параметрами." << endl;
+void Program::loadFromFile(ifstream& file) {
+    getline(file, day);
+    getline(file, time);
+    getline(file, title);
 }
 
-Program::~Program() {
-    cout << "Вызван деструктор Program." << endl;
-}
+void Program::menu() {
+    int choice;
+    do {
+        cout << "Меню для Program:\n";
+        cout << "1. Показать данные\n";
+        cout << "2. Изменить день\n";
+        cout << "3. Изменить время\n";
+        cout << "4. Изменить название программы\n";
+        cout << "0. Выйти\n";
+        cin >> choice;
 
-string Program::getDay() const {
-    return day;
-}
-
-void Program::setDay(const string& day) {
-    this->day = day;
-}
-
-string Program::getTime() const {
-    return time;
-}
-
-void Program::setTime(const string& time) {
-    this->time = time;
-}
-
-string Program::getTitle() const {
-    return title;
-}
-
-void Program::setTitle(const string& title) {
-    this->title = title;
-}
-
-void Program::displayInfo() const {
-    cout << "День: " << day << ", Время: " << time << ", Название: " << title << endl;
-}
-
-// Операции для работы с программой
-void Program::addProgram(Program*& programs, int& count) {
-    Program* newPrograms = new Program[count + 1];
-    for (int i = 0; i < count; ++i) {
-        newPrograms[i] = programs[i];
-    }
-
-    string day, time, title;
-    cout << "Введите день программы: ";
-    cin.ignore();
-    getline(cin, day);
-    cout << "Введите время программы: ";
-    getline(cin, time);
-    cout << "Введите название программы: ";
-    getline(cin, title);
-
-    newPrograms[count] = Program(day, time, title);
-    count++;
-
-    delete[] programs;
-    programs = newPrograms;
-
-    cout << "Программа добавлена!" << endl;
-}
-
-void Program::deleteProgram(Program*& programs, int& count) {
-    if (count == 0) {
-        cout << "Список программ пуст!" << endl;
-        return;
-    }
-
-    int index;
-    cout << "Введите индекс программы для удаления (1 - " << count << "): ";
-    cin >> index;
-
-    if (index < 1 || index > count) {
-        cout << "Неверный индекс!" << endl;
-        return;
-    }
-
-    Program* newPrograms = new Program[count - 1];
-    for (int i = 0, j = 0; i < count; ++i) {
-        if (i != index - 1) {
-            newPrograms[j++] = programs[i];
+        switch (choice) {
+        case 1:
+            show();
+            break;
+        case 2: {
+            cout << "Введите новый день: ";
+            cin.ignore();
+            getline(cin, day);
+            break;
         }
-    }
-    count--;
-
-    delete[] programs;
-    programs = newPrograms;
-
-    cout << "Программа удалена!" << endl;
+        case 3: {
+            cout << "Введите новое время: ";
+            cin.ignore();
+            getline(cin, time);
+            break;
+        }
+        case 4: {
+            cout << "Введите новое название программы: ";
+            cin.ignore();
+            getline(cin, title);
+            break;
+        }
+        }
+    } while (choice != 0);
 }
 
-void Program::listPrograms(const Program* programs, int count) {
-    if (count == 0) {
-        cout << "Список программ пуст!" << endl;
-        return;
-    }
-
-    for (int i = 0; i < count; ++i) {
-        cout << i + 1 << ". ";
-        programs[i].displayInfo();
-    }
+void Program::show() const {
+    cout << "Программа:\n";
+    cout << "День: " << day << "\n";
+    cout << "Время: " << time << "\n";
+    cout << "Название: " << title << "\n";
 }

@@ -1,32 +1,21 @@
 #ifndef ADMINISTRATION_H
 #define ADMINISTRATION_H
 
-#include "Person.h"
+#include "Conf.h"
 
-class Administration : public Person {
+class Administration : public Conf {
 private:
     string position;
     string responsibility;
-
 public:
-    Administration();
-    Administration(string name, string organization, string position, string responsibility);
-    virtual ~Administration();
+    Administration() : position(""), responsibility("") {}
+    Administration(const string& name, const string& pos, const string& resp)
+        : Conf(name), position(pos), responsibility(resp) {}
 
-    // Setters и Getters
-    string getPosition() const;
-    void setPosition(const string& position);
-
-    string getResponsibility() const;
-    void setResponsibility(const string& responsibility);
-
-    // Реализация чисто виртуального метода
-    void displayInfo() const override;
-
-    // Операции: добавление, удаление, отображение
-    static void addAdmin(Administration*& admins, int& count);
-    static void deleteAdmin(Administration*& admins, int& count);
-    static void listAdmins(const Administration* admins, int count);
+    void saveToFile(ofstream& file) override;
+    void loadFromFile(ifstream& file) override;
+    void menu() override;
+    void show() const override;
 };
 
-#endif
+#endif // ADMINISTRATION_H

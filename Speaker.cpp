@@ -1,106 +1,69 @@
 #include "Speaker.h"
-#include <iostream>
 
-using namespace std;
-
-Speaker::Speaker() : Person(), report(""), annotation("") {
-    cout << "Вызван конструктор Speaker по умолчанию." << endl;
+void Speaker::saveToFile(ofstream& file) {
+    file << fullName << "\n";
+    file << organization << "\n";
+    file << topic << "\n";
+    file << annotation << "\n";
 }
 
-Speaker::Speaker(string name, string organization, string report, string annotation)
-    : Person(name, organization), report(report), annotation(annotation) {
-    cout << "Вызван конструктор Speaker с параметрами." << endl;
+void Speaker::loadFromFile(ifstream& file) {
+    getline(file, fullName);
+    getline(file, organization);
+    getline(file, topic);
+    getline(file, annotation);
 }
 
-Speaker::~Speaker() {
-    cout << "Вызван деструктор Speaker." << endl;
-}
+void Speaker::menu() {
+    int choice;
+    do {
+        cout << "Меню для Speaker:\n";
+        cout << "1. Показать данные\n";
+        cout << "2. Изменить имя\n";
+        cout << "3. Изменить организацию\n";
+        cout << "4. Изменить тему доклада\n";
+        cout << "5. Изменить аннотацию\n";
+        cout << "0. Выйти\n";
+        cin >> choice;
 
-string Speaker::getReport() const {
-    return report;
-}
-
-void Speaker::setReport(const string& report) {
-    this->report = report;
-}
-
-string Speaker::getAnnotation() const {
-    return annotation;
-}
-
-void Speaker::setAnnotation(const string& annotation) {
-    this->annotation = annotation;
-}
-
-void Speaker::displayInfo() const {
-    cout << "ФИО: " << name << ", Организация: " << organization
-         << ", Доклад: " << report << ", Аннотация: " << annotation << endl;
-}
-
-// Операции для работы с массивом выступающих
-void Speaker::addSpeaker(Speaker*& speakers, int& count) {
-    Speaker* newSpeakers = new Speaker[count + 1];
-    for (int i = 0; i < count; ++i) {
-        newSpeakers[i] = speakers[i];
-    }
-
-    string name, organization, report, annotation;
-    cout << "Введите ФИО выступающего: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Введите организацию/ВУЗ: ";
-    getline(cin, organization);
-    cout << "Введите тему доклада: ";
-    getline(cin, report);
-    cout << "Введите аннотацию доклада: ";
-    getline(cin, annotation);
-
-    newSpeakers[count] = Speaker(name, organization, report, annotation);
-    count++;
-
-    delete[] speakers;
-    speakers = newSpeakers;
-
-    cout << "Выступающий добавлен!" << endl;
-}
-
-void Speaker::deleteSpeaker(Speaker*& speakers, int& count) {
-    if (count == 0) {
-        cout << "Список выступающих пуст!" << endl;
-        return;
-    }
-
-    int index;
-    cout << "Введите индекс выступающего для удаления (1 - " << count << "): ";
-    cin >> index;
-
-    if (index < 1 || index > count) {
-        cout << "Неверный индекс!" << endl;
-        return;
-    }
-
-    Speaker* newSpeakers = new Speaker[count - 1];
-    for (int i = 0, j = 0; i < count; ++i) {
-        if (i != index - 1) {
-            newSpeakers[j++] = speakers[i];
+        switch (choice) {
+        case 1:
+            show();
+            break;
+        case 2: {
+            string newName;
+            cout << "Введите новое имя: ";
+            cin.ignore();
+            getline(cin, newName);
+            setFullName(newName);
+            break;
         }
-    }
-    count--;
-
-    delete[] speakers;
-    speakers = newSpeakers;
-
-    cout << "Выступающий удалён!" << endl;
+        case 3: {
+            cout << "Введите новую организацию: ";
+            cin.ignore();
+            getline(cin, organization);
+            break;
+        }
+        case 4: {
+            cout << "Введите новую тему доклада: ";
+            cin.ignore();
+            getline(cin, topic);
+            break;
+        }
+        case 5: {
+            cout << "Введите новую аннотацию: ";
+            cin.ignore();
+            getline(cin, annotation);
+            break;
+        }
+        }
+    } while (choice != 0);
 }
 
-void Speaker::listSpeakers(const Speaker* speakers, int count) {
-    if (count == 0) {
-        cout << "Список выступающих пуст!" << endl;
-        return;
-    }
-
-    for (int i = 0; i < count; ++i) {
-        cout << i + 1 << ". ";
-        speakers[i].displayInfo();
-    }
+void Speaker::show() const {
+    cout << "Спикер:\n";
+    cout << "Имя: " << fullName << "\n";
+    cout << "Организация: " << organization << "\n";
+    cout << "Тема доклада: " << topic << "\n";
+    cout << "Аннотация: " << annotation << "\n";
 }

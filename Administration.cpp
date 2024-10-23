@@ -1,104 +1,59 @@
 #include "Administration.h"
-#include <iostream>
 
-Administration::Administration() : Person(), position(""), responsibility("") {
-    cout << "Вызван конструктор Administration по умолчанию." << endl;
+void Administration::saveToFile(ofstream& file) {
+    file << fullName << "\n";
+    file << position << "\n";
+    file << responsibility << "\n";
 }
 
-Administration::Administration(string name, string organization, string position, string responsibility)
-    : Person(name, organization), position(position), responsibility(responsibility) {
-    cout << "Вызван конструктор Administration с параметрами." << endl;
+void Administration::loadFromFile(ifstream& file) {
+    getline(file, fullName);
+    getline(file, position);
+    getline(file, responsibility);
 }
 
-Administration::~Administration() {
-    cout << "Вызван деструктор Administration." << endl;
-}
+void Administration::menu() {
+    int choice;
+    do {
+        cout << "Меню для Administration:\n";
+        cout << "1. Показать данные\n";
+        cout << "2. Изменить имя\n";
+        cout << "3. Изменить должность\n";
+        cout << "4. Изменить ответственность\n";
+        cout << "0. Выйти\n";
+        cin >> choice;
 
-string Administration::getPosition() const {
-    return position;
-}
-
-void Administration::setPosition(const string& position) {
-    this->position = position;
-}
-
-string Administration::getResponsibility() const {
-    return responsibility;
-}
-
-void Administration::setResponsibility(const string& responsibility) {
-    this->responsibility = responsibility;
-}
-
-void Administration::displayInfo() const {
-    cout << "ФИО: " << name << ", Организация: " << organization
-         << ", Должность: " << position << ", Ответственность: " << responsibility << endl;
-}
-
-// Операции для работы с администраторами
-void Administration::addAdmin(Administration*& admins, int& count) {
-    Administration* newAdmins = new Administration[count + 1];
-    for (int i = 0; i < count; ++i) {
-        newAdmins[i] = admins[i];
-    }
-
-    string name, organization, position, responsibility;
-    cout << "Введите ФИО администратора: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Введите организацию: ";
-    getline(cin, organization);
-    cout << "Введите должность: ";
-    getline(cin, position);
-    cout << "Введите область ответственности: ";
-    getline(cin, responsibility);
-
-    newAdmins[count] = Administration(name, organization, position, responsibility);
-    count++;
-
-    delete[] admins;
-    admins = newAdmins;
-
-    cout << "Администратор добавлен!" << endl;
-}
-
-void Administration::deleteAdmin(Administration*& admins, int& count) {
-    if (count == 0) {
-        cout << "Список администраторов пуст!" << endl;
-        return;
-    }
-
-    int index;
-    cout << "Введите индекс администратора для удаления (1 - " << count << "): ";
-    cin >> index;
-
-    if (index < 1 || index > count) {
-        cout << "Неверный индекс!" << endl;
-        return;
-    }
-
-    Administration* newAdmins = new Administration[count - 1];
-    for (int i = 0, j = 0; i < count; ++i) {
-        if (i != index - 1) {
-            newAdmins[j++] = admins[i];
+        switch (choice) {
+        case 1:
+            show();
+            break;
+        case 2: {
+            string newName;
+            cout << "Введите новое имя: ";
+            cin.ignore();
+            getline(cin, newName);
+            setFullName(newName);
+            break;
         }
-    }
-    count--;
-
-    delete[] admins;
-    admins = newAdmins;
-
-    cout << "Администратор удалён!" << endl;
+        case 3: {
+            cout << "Введите новую должность: ";
+            cin.ignore();
+            getline(cin, position);
+            break;
+        }
+        case 4: {
+            cout << "Введите новую область ответственности: ";
+            cin.ignore();
+            getline(cin, responsibility);
+            break;
+        }
+        }
+    } while (choice != 0);
 }
 
-void Administration::listAdmins(const Administration* admins, int count) {
-    if (count == 0) {
-        cout << "Список администраторов пуст!" << endl;
-        return;
-    }
-
-    for (int i = 0; i < count; ++i) {
-        cout << i + 1 << ". ";
-        admins[i].displayInfo();
-    }
+void Administration::show() const {
+    cout << "Администрация:\n";
+    cout << "Имя: " << fullName << "\n";
+    cout << "Должность: " << position << "\n";
+    cout << "Область ответственности: " << responsibility << "\n";
 }

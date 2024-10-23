@@ -1,32 +1,22 @@
 #ifndef SPEAKER_H
 #define SPEAKER_H
 
-#include "Person.h"
+#include "Conf.h"
 
-class Speaker : public Person {
+class Speaker : public Conf {
 private:
-    string report;
+    string organization;
+    string topic;
     string annotation;
-
 public:
-    Speaker();
-    Speaker(string name, string organization, string report, string annotation);
-    virtual ~Speaker();
+    Speaker() : organization(""), topic(""), annotation("") {}
+    Speaker(const string& name, const string& org, const string& top, const string& ann)
+        : Conf(name), organization(org), topic(top), annotation(ann) {}
 
-    // Setters и Getters
-    string getReport() const;
-    void setReport(const string& report);
-
-    string getAnnotation() const;
-    void setAnnotation(const string& annotation);
-
-    // Реализация чисто виртуального метода
-    void displayInfo() const override;
-
-    // Операции: добавление, удаление, отображение
-    static void addSpeaker(Speaker*& speakers, int& count);
-    static void deleteSpeaker(Speaker*& speakers, int& count);
-    static void listSpeakers(const Speaker* speakers, int count);
+    void saveToFile(ofstream& file) override;
+    void loadFromFile(ifstream& file) override;
+    void menu() override;
+    void show() const override;
 };
 
-#endif
+#endif // SPEAKER_H
