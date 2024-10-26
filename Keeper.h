@@ -19,7 +19,7 @@ public:
 
     void saveToFile(const string& filename);
     void loadFromFile(const string& filename);
-
+    void Ren(int index);
     void clear();
 };
 

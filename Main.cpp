@@ -17,22 +17,23 @@ int main() {
         cout << "5. Удалить конференцию\n";
         cout << "6. Сохранить в файл\n";
         cout << "7. Загрузить из файла\n";
+        cout << "8. Редактировать запись\n";
         cout << "0. Выход\n";
         cin >> choice;
 
         switch (choice) {
         case 1: {
-            string name, org, topic, ann;
+            string name, org, top, ann;
             cout << "Введите ФИО спикера: ";
             cin.ignore();
             getline(cin, name);
             cout << "Введите организацию: ";
             getline(cin, org);
             cout << "Введите тему доклада: ";
-            getline(cin, topic);
+            getline(cin, top);
             cout << "Введите аннотацию: ";
             getline(cin, ann);
-            keeper.addConference(new Speaker(name, org, topic, ann));
+            keeper.addConference(new Speaker(name, org, top, ann));
             break;
         }
         case 2: {
@@ -81,6 +82,13 @@ int main() {
             cout << "Введите имя файла для загрузки: ";
             cin >> filename;
             keeper.loadFromFile(filename);
+            break;
+        }
+        case 8: {
+            int index;
+            cout << "Введите индекс конференции для редактирования: ";
+            cin >> index;
+            keeper.Ren(index - 1);
             break;
         }
         }

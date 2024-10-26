@@ -48,6 +48,15 @@ void Keeper::showAllConferences() const {
     }
 }
 
+void Keeper::Ren(int index){
+    if (index < 0 || index >= conferenceCount) {
+        cerr << "Неверный индекс.\n";
+        return;
+    }
+    conferences[index]->menu();
+    conferences[index]->show();
+    cout << "-----------------------\n";
+}
 void Keeper::saveToFile(const string& filename) {
     ofstream file(filename, ios::trunc);
     if (!file) {
