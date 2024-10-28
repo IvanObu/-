@@ -61,7 +61,7 @@ int main() {
             break;
         }
         case 4:
-            keeper.showAllConferences();
+            cout << keeper;
             break;
         case 5: {
             int index;

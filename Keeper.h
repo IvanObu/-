@@ -12,11 +12,10 @@ private:
 public:
     Keeper();
     ~Keeper();
-
     void addConference(Conf* conf);
     void removeConference(int index);
     void showAllConferences() const;
-
+    friend ostream& operator<<(ostream& os, const Keeper& keeper);
     void saveToFile(const string& filename);
     void loadFromFile(const string& filename);
     void Ren(int index);

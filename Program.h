@@ -12,7 +12,9 @@ public:
     Program() : day(""), time(""), title("") {}
     Program(const string& d, const string& t, const string& ttl)
         : Conf(""), day(d), time(t), title(ttl) {}
-
+    Program(const Program& other)
+        : Conf(other.fullName), day(other.day), time(other.time), title(other.title) {}
+    ~Program() {}
     void saveToFile(ofstream& file) override;
     void loadFromFile(ifstream& file) override;
     void menu() override;

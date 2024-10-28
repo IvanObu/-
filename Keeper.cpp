@@ -47,6 +47,13 @@ void Keeper::showAllConferences() const {
         cout << "-----------------------\n";
     }
 }
+ostream& operator<<(ostream& os, const Keeper& keeper) {
+    for (int i = 0; i < keeper.conferenceCount; ++i) {
+        keeper.conferences[i]->show();
+        os << "-----------------------\n";
+    }
+    return os;
+}
 
 void Keeper::Ren(int index){
     if (index < 0 || index >= conferenceCount) {
